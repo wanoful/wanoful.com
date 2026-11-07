@@ -1,12 +1,13 @@
 import './style.css';
 import { profileData, type Lang } from './data/profile';
 
-const savedLang = (localStorage.getItem('wanoful_lang') as Lang | null) || 'en';
+const savedLang = localStorage.getItem('wanoful_lang') as Lang | null;
+const browserLang: Lang = navigator.language?.toLowerCase().startsWith('zh') ? 'zh' : 'en';
 const savedTheme =
   (localStorage.getItem('wanoful_theme') as 'dark' | 'light' | null) ||
   (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
 
-let lang: Lang = savedLang === 'zh' ? 'zh' : 'en';
+let lang: Lang = savedLang === 'zh' || savedLang === 'en' ? savedLang : browserLang;
 let theme: 'dark' | 'light' = savedTheme;
 
 document.documentElement.setAttribute('data-theme', theme);
